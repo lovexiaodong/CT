@@ -13,6 +13,7 @@
         <module>SouGouMapReduce</module>
         <module>KafkaDemo</module>
         <module>CT_Consumer</module>
+        <module>CT_analysis</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

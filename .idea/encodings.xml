@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CT_Consumer" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CT_Producer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CT_analysis" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/KafkaDemo" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SouGouMapReduce" charset="UTF-8" />
   </component>
