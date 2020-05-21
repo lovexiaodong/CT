@@ -6,9 +6,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import scala.util.control.Exception;
 import utils.ConnectionInstance;
 import utils.HBaseUtil;
 import utils.PropertiesUtil;
@@ -48,7 +46,7 @@ public class HBaseDao {
 
         if(!HBaseUtil.isExistTable(conf, tableName)){
             HBaseUtil.initNameSpace(conf, namespace);
-            HBaseUtil.createTable(conf, tableName, regions , "f1", "f2");
+            HBaseUtil.createTable(conf, namespace,tableName, regions , "f1", "f2");
         }
 
     }
@@ -60,7 +58,7 @@ public class HBaseDao {
         try {
             if(cacheList.isEmpty()){
                 connection = ConnectionInstance.getConnection(conf);
-                table = (HTable) connection.getTable(TableName.valueOf(tableName));
+                table = (HTable) connection.getTable(TableName.valueOf(namespace + ":" + tableName));
 //                table.setAutoFlushTo(false);
 //                table.setWriteBufferSize(2 * 1024 * 1024);
 

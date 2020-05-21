@@ -41,19 +41,21 @@ public class HBaseDemo {
 
     public void putData(){
         //zookeeper
-        Configuration con =  new Configuration();
-        con.set("hbase.zookeeper.quorum","hadoop112");
-
-        try {
-            HTable client = new HTable(con, "myTable");
-            Put put = new Put(Bytes.toBytes("id001"));
-            //列族  列的名字， 列值
-            put.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes("tom"));
-            client.put(put);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        Configuration con =  new Configuration();
+//        con.set("hbase.zookeeper.quorum","hadoop112");
+//
+//        try {
+//
+//
+//            HTable client = new HTable(con, "myTable");
+//            Put put = new Put(Bytes.toBytes("id001"));
+//            //列族  列的名字， 列值
+//            put.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes("tom"));
+//            client.put(put);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 

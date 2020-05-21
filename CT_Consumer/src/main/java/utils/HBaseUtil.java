@@ -5,14 +5,14 @@ import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.NamespaceDescriptor;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 public class HBaseUtil {
@@ -97,7 +97,7 @@ public class HBaseUtil {
      * @param columnFamily
      */
 
-    public static void createTable(Configuration conf, String tableName, int regions, String... columnFamily){
+    public static void createTable(Configuration conf, String nameSpace, String tableName, int regions, String... columnFamily){
         Connection con = null;
         Admin admin = null;
         try {
@@ -106,14 +106,31 @@ public class HBaseUtil {
 
             if(isExistTable(conf, tableName)) return;
 
-            HTableDescriptor ht = new HTableDescriptor(TableName.valueOf(tableName));
+            TableDescriptorBuilder tb = TableDescriptorBuilder.newBuilder(TableName.valueOf(nameSpace+":"+tableName));
+
+            List<ColumnFamilyDescriptor> list = new ArrayList<>();
             if(columnFamily != null){
                 for (String cf : columnFamily){
-                    ht.addFamily(new HColumnDescriptor(cf));
-
+                    ColumnFamilyDescriptorBuilder builder = ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes(cf));
+                    ColumnFamilyDescriptor build = builder.build();
+                    list.add(build);
                 }
+
             }
-            admin.createTable(ht, genSplitKey(regions));
+
+            tb.setColumnFamilies(list);
+//            tb.setCoprocessor("hbase.CalleeWriteObserver");
+            admin.createTable(tb.build(),  genSplitKey(regions));
+
+//            HTableDescriptor ht = new HTableDescriptor(TableName.valueOf(tableName));
+//            if(columnFamily != null){
+//                for (String cf : columnFamily){
+//                    ht.addFamily(new HColumnDescriptor(cf));
+//
+//                }
+//            }
+//            ht.addCoprocessor("hbase.CalleeWriteObserver");
+//            admin.createTable(ht, genSplitKey(regions));
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
